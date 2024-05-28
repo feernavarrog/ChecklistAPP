@@ -1,0 +1,43 @@
+<!-- home.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title @fadeState>SkeletonAPP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1>Bienvenido!</h1>
+  <p>Usuario: {{ usuario }}</p>
+  <h2>Información Adicional</h2>
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input #nombreInput [(ngModel)]="nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Apellido</ion-label>
+    <ion-input #apellidoInput [(ngModel)]="apellido"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Nivel Educación</ion-label>
+    <ion-select placeholder="Seleccione nivel" [(ngModel)]="nivelEducacion">
+      <ion-select-option value="Basica">Educacion Basica</ion-select-option>
+      <ion-select-option value="Media">Educacion Media</ion-select-option>
+      <ion-select-option value="Superior">Educacion Superior</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Fecha Nacimiento</ion-label>
+    <input matInput [matDatepicker]="picker" placeholder="Seleccione fecha" [(ngModel)]="fechaNacimiento">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </ion-item>
+  <ion-button expand="full" color="danger" (click)="limpiarYAnimarInputs()">Limpiar</ion-button>
+  <ion-button expand="full" color="success" (click)="mostrarDatos()">Mostrar</ion-button>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>App desarrollada por Fernando</ion-title>
+  </ion-toolbar>
+</ion-footer>
+
