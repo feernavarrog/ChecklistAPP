@@ -1,0 +1,48 @@
+<!-- home.page.html -->
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title @fadeState class="ion-text-center">Check<ion-icon name="checkmark-circle" color="success"></ion-icon>list</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+  <h2>Información Adicional</h2>
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input #nombreInput [(ngModel)]="nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Apellido</ion-label>
+    <ion-input #apellidoInput [(ngModel)]="apellido"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Nivel Educación</ion-label>
+    <ion-select placeholder="Seleccione nivel" [(ngModel)]="nivelEducacion">
+      <ion-select-option value="Basica">Educacion Basica</ion-select-option>
+      <ion-select-option value="Media">Educacion Media</ion-select-option>
+      <ion-select-option value="Superior">Educacion Superior</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Fecha Nacimiento</ion-label>
+    <ion-button color="dark" expand="block" (click)="toggleDatePicker()">
+      <ion-icon name="calendar-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+  <ion-item *ngIf="showDatePicker">
+    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="fechaNacimiento"></ion-datetime>
+  </ion-item>
+
+  <ion-button color="dark" expand="block" (click)="limpiarYAnimarInputs()">limpiar</ion-button>
+  <ion-button color="warning" expand="block" (click)="mostrarDatos()">mostrar</ion-button>
+
+</ion-content>
+<ion-button color="primary" expand="block" (click)="saveNewUserInfo()">guardar datos</ion-button>
+  <ion-button color="secondary" expand="block" (click)="getBackHome()">volver al home</ion-button>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>App desarrollada por Fernando</ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -9,46 +9,81 @@ import { AlertController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  usuario: string = '';
-  contrasena: string = '';
+    // Variables para almacenar los datos del usuario
+  userEmail: string = '';
+  userName: string = '';
+  userFirstName: string = '';
+  userLastName: string = '';
+  userPassword: string = '';
 
-  constructor(private router: Router, private alertController: AlertController) {}
+    // Variables para almacenar los datos ingresados por el usuario
+  userInput: string = '';
+  passwordInput: string = '';
+
+  constructor(  // Importar módulos necesarios
+    private router: Router,
+    private route: ActivatedRoute, 
+    private toastController: ToastController) {
+
+    this.route.queryParams.subscribe(params => {  // Obtener los datos del usuario
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        const user = this.router.getCurrentNavigation()?.extras.state?.['user'];
+
+          // Almacenar los datos del usuario
+        if (user) {
+          this.userName = user.userName;
+          this.userPassword = user.password; 
+          this.userEmail = user.email; 
+          this.userFirstName = user.firstName; 
+          this.userLastName = user.lastName;
+        }
+      }
+    });
+    }
 
   ngOnInit() {
   }
 
+    // Método para iniciar sesión
   login(){
-    // verifica campos vacios
-    if(this.usuario == '' || this.contrasena == ''){
-      this.presentAlert('Por favor ingrese el usuario y la contraseña');
-      return;
-    }
-    // verifica longitud del usuario
-    if (this.usuario.length < 3 || this.usuario.length > 8) {
-      this.presentAlert('El usuario debe tener entre 3 y 8 caracteres');
+
+    if(this.userInput == '' || this.passwordInput == ''){   // Validar que los campos no estén vacíos
+      this.presentToast('Por favor ingrese el usuario y la contraseña');
       return;
     }
 
-    // verifica que la contraseña tenga exactamente 4 dígitos y solo contenga números
-    if (this.contrasena.length !== 4 || !/^\d{4}$/.test(this.contrasena)) {
-      this.presentAlert('La contraseña debe contener exactamente 4 dígitos numéricos');
+    if (this.passwordInput.length !== 4 || !/^\d{4}$/.test(this.passwordInput)) {
+      this.presentToast('La contraseña debe contener exactamente 4 dígitos numéricos'); // Mostrar mensaje de error si la contraseña no contiene 4 dígitos numéricos
       return;
     }
 
-    // Navegar a siguiente pagina y enviar datos
-    let navigationExtras: NavigationExtras = { 
-      state: {
-        usuario: this.usuario
+    if (this.userInput === this.userName && this.passwordInput === this.userPassword) {   // Validar que el usuario y la contraseña sean correctos
+
+      const user = { // Crear objeto con los datos del usuario
+        userName: this.userName,
+        userFirstName: this.userFirstName,
+        userLastName: this.userLastName
       }
+
+      // Redireccionar a la página de inicio con los datos del usuario
+      let navigationExtras: NavigationExtras = { 
+        state: {
+          user: user
+        }
+      }
+      this.router.navigate(['/home'], navigationExtras); // Redireccionar a la página de inicio con los datos del usuario
+    } else {
+
+      this.presentToast('Usuario o contraseña incorrectos'); // Mostrar mensaje de error si el usuario o la contraseña son incorrectos
     }
-    this.router.navigate(['/home'], navigationExtras);
   }
 
-  presentAlert(message: string) {
-    this.alertController.create({
-      header: 'Mensaje',
+    // Método para mostrar un mensaje de error
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
       message: message,
-      buttons: ['OK']
-    }).then(alert => alert.present());
+      duration: 2000
+    });
+    toast.present();
   }
 }

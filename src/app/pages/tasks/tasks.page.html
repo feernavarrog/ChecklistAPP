@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Lista de Tareas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="selectedSegment">
+    <ion-segment-button value="todo">
+      <ion-label>Por Hacer</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="inProgress">
+      <ion-label>En Progreso</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-list *ngIf="selectedSegment === 'todo'">
+    <ion-item-sliding #slidingItem *ngFor="let task of taskList; let i = index">
+      <ion-item (click)="showTaskDetails(task)" *ngIf="task.status === 1">
+        <ion-label>
+          <h2>{{ task.title }}</h2>
+          <p>{{ task.description }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item-options side="start">
+        <ion-item-option color="dark" (click)="editTask(i)">
+          <ion-icon name="create"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item-options side="end">
+        <ion-item-option color="dark" (click)="completeTask(i)">
+          <ion-icon name="checkmark-done-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="dark" (click)="deleteTask(i)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list *ngIf="selectedSegment === 'inProgress'">
+    <ion-item-sliding #slidingItem *ngFor="let task of taskList; let i = index">
+      <ion-item (click)="showTaskDetails(task)" *ngIf="task.status === 2">
+        <ion-label>
+          <h2>{{ task.title }}</h2>
+          <p>{{ task.description }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item-options side="start">
+        <ion-item-option color="dark" (click)="editTask(i)">
+          <ion-icon name="create"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item-options side="end">
+        <ion-item-option color="dark" (click)="completeTask(i)">
+          <ion-icon name="checkmark-done-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="dark" (click)="deleteTask(i)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-card class="task-details" [hidden]="!showDetails" [style.visibility]="showDetails ? 'visible' : 'hidden'">
+    <ion-card-header>
+      Detalles de la Tarea
+    </ion-card-header>
+    <ion-card-content>
+      <h2>{{ selectedTask?.title }}</h2>
+      <p>{{ selectedTask?.description }}</p>
+    </ion-card-content>
+    <ion-button class="ion-padding" color="dark" expand="block" (click)="hideTaskDetails()">volver<ion-icon slot="start" name="arrow-back"></ion-icon></ion-button>
+  </ion-card>
+
+  <ion-button class="ion-padding" color="dark" expand="block" (click)="getBackHome()">Volver al Home
+    <ion-icon slot="start" name="arrow-back"></ion-icon>
+  </ion-button>
+</ion-content>

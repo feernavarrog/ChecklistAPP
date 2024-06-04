@@ -1,43 +1,40 @@
 <!-- home.page.html -->
 <ion-header>
-  <ion-toolbar>
-    <ion-title @fadeState>SkeletonAPP</ion-title>
+  <ion-toolbar @fadeState color="dark">
+    <ion-title class="ion-text-center">Check<ion-icon name="checkmark-circle" color="success"></ion-icon>list</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <h1>Bienvenido!</h1>
-  <p>Usuario: {{ usuario }}</p>
-  <h2>Información Adicional</h2>
-  <ion-item>
-    <ion-label position="stacked">Nombre</ion-label>
-    <ion-input #nombreInput [(ngModel)]="nombre"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Apellido</ion-label>
-    <ion-input #apellidoInput [(ngModel)]="apellido"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Nivel Educación</ion-label>
-    <ion-select placeholder="Seleccione nivel" [(ngModel)]="nivelEducacion">
-      <ion-select-option value="Basica">Educacion Basica</ion-select-option>
-      <ion-select-option value="Media">Educacion Media</ion-select-option>
-      <ion-select-option value="Superior">Educacion Superior</ion-select-option>
-    </ion-select>
-  </ion-item>
-  <ion-item>
-    <ion-label>Fecha Nacimiento</ion-label>
-    <input matInput [matDatepicker]="picker" placeholder="Seleccione fecha" [(ngModel)]="fechaNacimiento">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </ion-item>
-  <ion-button expand="full" color="danger" (click)="limpiarYAnimarInputs()">Limpiar</ion-button>
-  <ion-button expand="full" color="success" (click)="mostrarDatos()">Mostrar</ion-button>
+<ion-content class="ion-padding ion-text-center">
+  <h2 class="welcome-title">Bienvenido, {{ userData.userName }}</h2>
+
+  <ion-button class="ion-padding" color="primary" expand="block" (click)="goToAddTask()">
+    <ion-icon class="menu-icon" name="create-outline"></ion-icon>
+    crear nueva tarea
+  </ion-button>
+
+  <ion-button class="ion-padding" color="primary" expand="block" (click)="goToTaskList()">
+    <ion-icon class="menu-icon" name="list-outline"></ion-icon>
+    ver lista de tareas
+  </ion-button>
+
+  <ion-button class="ion-padding" color="primary" expand="block" (click)="goToCompletedTasks()">
+    <ion-icon class="menu-icon" name="checkmark-done-outline"></ion-icon>
+    ver tareas completadas
+  </ion-button>
+
+  <ion-button class="ion-padding" color="secondary" expand="block" (click)="goToInfo()">
+    <ion-icon class="menu-icon" name="information-circle-outline"></ion-icon>
+    añadir informacion
+  </ion-button>
+
+  <ion-button class="ion-padding" color="dark" expand="block" routerLink="/login">
+    <ion-icon class="menu-icon" name="log-out-outline"></ion-icon>
+    Cerrar Sesión
+  </ion-button>  
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <ion-title>App desarrollada por Fernando</ion-title>
   </ion-toolbar>
 </ion-footer>
-
